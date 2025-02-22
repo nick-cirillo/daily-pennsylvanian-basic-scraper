@@ -78,7 +78,7 @@ if __name__ == "__main__":
 
     # Run scrape
     loguru.logger.info("Starting scrape")
-    data_points = []
+    data_points = ["", ""]
     try:
         data_points[0] = scrape_headline_data_point()
     except Exception as e:

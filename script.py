@@ -52,8 +52,12 @@ def scrape_salamone_data_point():
 
     if req.ok:
         soup = bs4.BeautifulSoup(req.text, "html.parser")
-        target_element = soup.find("a", class_="standard-link")
-        data_point = "" if target_element is None else target_element.text
+        target_element = soup.find("h3", class_="standard-link")
+        if target_element:
+            anchor_tag = target_element.find("a")
+            data_point = anchor_tag.text.strip() if anchor_tag else ""
+        else:
+            data_point = ""
         loguru.logger.info(f"Data point: {data_point}")
         return data_point
 
@@ -78,7 +82,7 @@ if __name__ == "__main__":
 
     # Run scrape
     loguru.logger.info("Starting scrape")
-    data_points = ["", ""]
+    data_points = [None, None]
     try:
         data_points[0] = scrape_headline_data_point()
     except Exception as e:

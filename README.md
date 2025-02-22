@@ -20,13 +20,19 @@ The workflow defined in `.github/workflows/scrape.yaml` runs on a defined schedu
 4. Run the python script `script.py` to scrape data
 5. Commit any updated data files to the Git repository
 
+## Specific Modifications
+
+I have modified the template for this assignment to scrape the most recent headline from DP author Francesco Salamone, who is known for his thoughtful essays on life at Penn. I have done this by modifying `script.py` to check his author page, `https://www.thedp.com/staff/francesco-salamone`, for the first headline with the `standard-link` class.
+
+I also changed the scraping script to run twice a day instead of once.
+
 ## Scheduling
 
 The workflow schedule is configured with [cron syntax](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule) to run:
 
-- Every day at 8PM UTC
+- Every day at 8AM and 8PM UTC
 
-This once-daily scraping is a good rule-of-thumb, as it is generally respectful of the target website, as it does not contribute to any measurable burden to the site's resources.
+This twice-daily scraping is a good rule-of-thumb, as it is generally respectful of the target website, as it does not contribute to any measurable burden to the site's resources.
 
 You can use [crontab.guru](https://crontab.guru/) to generate your own cron schedule.
 

@@ -1,0 +1,1 @@
+The cron syntax "0 20 * * *" means that the schedule will run every day at 20:00 (8pm).  The five fields are minute, hour, day of month, month, and day of week.

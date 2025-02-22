@@ -12,29 +12,6 @@ import bs4
 import requests
 import loguru
 
-
-def scrape_headline_data_point():
-    """
-    Scrapes the main headline from The Daily Pennsylvanian home page.
-
-    Returns:
-        str: The headline text if found, otherwise an empty string.
-    """
-    headers = {
-        "User-Agent": "cis3500-scraper"
-    }
-    
-    req = requests.get("https://www.thedp.com", headers=headers)
-    loguru.logger.info(f"Request URL: {req.url}")
-    loguru.logger.info(f"Request status code: {req.status_code}")
-
-    if req.ok:
-        soup = bs4.BeautifulSoup(req.text, "html.parser")
-        target_element = soup.find("a", class_="frontpage-link")
-        data_point = "" if target_element is None else target_element.text
-        loguru.logger.info(f"Data point: {data_point}")
-        return data_point
-
 def scrape_salamone_data_point():
     """
     Scrapes the most recent headline from The Daily Pennsylvanian author Francesco Salamone.
@@ -82,25 +59,17 @@ if __name__ == "__main__":
 
     # Run scrape
     loguru.logger.info("Starting scrape")
-    data_points = [None, None]
     try:
-        data_points[0] = scrape_headline_data_point()
-    except Exception as e:
-        loguru.logger.error(f"Failed to scrape headline data point: {e}")
-        data_point = None
-
-    try:
-        data_points[1] = scrape_salamone_data_point()
+        data_point = scrape_salamone_data_point()
     except Exception as e:
         loguru.logger.error(f"Failed to scrape Salamone data point: {e}")
         data_point = None
 
     # Save data
-    for data_point in data_points:
-        if data_point is not None:
-            dem.add_today(data_point)
-            dem.save()
-            loguru.logger.info("Saved daily event monitor")
+    if data_point is not None:
+        dem.add_today(data_point)
+        dem.save()
+        loguru.logger.info("Saved daily event monitor")
 
     def print_tree(directory, ignore_dirs=[".git", "__pycache__"]):
         loguru.logger.info(f"Printing tree of files/dirs at {directory}")
